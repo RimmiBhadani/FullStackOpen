@@ -22,8 +22,6 @@ const Stats = ({anecdotes, votes}) => {
   )
 }
 
-  
-
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -64,4 +62,5 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
+
