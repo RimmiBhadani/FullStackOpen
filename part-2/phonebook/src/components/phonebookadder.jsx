@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import axios from 'axios';
+import personService from '../services/person'
 
 const PhonebookAdder = ({ personsList, setPerson }) => {
     const [newName, setNewName] = useState('')
@@ -8,16 +10,31 @@ const PhonebookAdder = ({ personsList, setPerson }) => {
         event.preventDefault()
         const existingPerson = personsList.find(person => person.name === newName)
         if (existingPerson) {
-            alert(`${newName} is already added to phonebook`)
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                personService
+                    .update({ ...existingPerson, number: newNumber })
+                    .then(returnedObject => {
+                        const mapped = personsList.map(person => person.id !== existingPerson.id ? person : returnedObject)
+                        setPerson(mapped)
+                        setNewName('')
+                        setNewNumber('')
+                    });
+            }
             return
         }
         const personObject = {
             name: newName,
             number: newNumber
         }
-        setPerson(personsList.concat(personObject))
-        setNewName('')
-        setNewNumber('')
+
+        personService
+            .create(personObject)
+            .then(returnedObject => {
+                setPerson(personsList.concat(returnedObject))
+                setNewName('')
+                setNewNumber('')
+            })
+
     }
 
     const handleNameChange = (event) => {

@@ -3,6 +3,7 @@ import axios from 'axios'
 import Phonebook from './components/phonebook'
 import PhonebookAdder from './components/phonebookadder'
 import PhonebookFilter from './components/phonebookfilter'
+import personService from './services/person'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,11 +13,11 @@ const App = () => {
     : persons
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService
+      .getAll()
+      .then(initialObject =>
+        setPersons(initialObject)
+      )
   }, [])
 
   return (
@@ -26,7 +27,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PhonebookAdder personsList={persons} setPerson={setPersons} />
       <h2>Numbers</h2>
-      <Phonebook phoneBook={personsToShow} />
+      <Phonebook phoneBook={personsToShow} setPerson={setPersons} />
     </div>
   )
 }
