@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import axios from 'axios';
 import personService from '../services/person'
+import notification from './notification'
 
 const PhonebookAdder = ({ personsList, setPerson }) => {
     const [newName, setNewName] = useState('')
@@ -33,6 +33,10 @@ const PhonebookAdder = ({ personsList, setPerson }) => {
                 setPerson(personsList.concat(returnedObject))
                 setNewName('')
                 setNewNumber('')
+            })
+            .catch(message => {
+                setError(
+                    { message: `Error: ${message.response.data.error}` })
             })
 
     }
