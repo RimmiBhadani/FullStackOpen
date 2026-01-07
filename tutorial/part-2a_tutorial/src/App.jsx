@@ -3,7 +3,7 @@ import Note from './components/Note'
 import noteService from './services/notes'
 import Notification from './components/Notification'
 
-const App = (props) => {
+const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
@@ -44,7 +44,6 @@ const App = (props) => {
   }
 
   const toggleImportanceOf = (id) => {
-    const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
 
@@ -53,7 +52,7 @@ const App = (props) => {
       .then(returnedNote => {
         setNotes(notes.map(note => note.id === id ? returnedNote : note))
       })
-      .catch(error => {
+      .catch(() => {
         setErrorMessage(
           `the note '${note.content}' was already deleted from server`
         )

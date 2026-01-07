@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import personService from '../services/person'
-import notification from './notification'
 
-const PhonebookAdder = ({ personsList, setPerson }) => {
+const PhonebookAdder = ({ personsList, setPerson, showNotification }) => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
 
     const addPerson = (event) => {
         event.preventDefault()
         const existingPerson = personsList.find(person => person.name === newName)
+        console.log(existingPerson)
         if (existingPerson) {
             if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
                 personService
@@ -16,6 +16,10 @@ const PhonebookAdder = ({ personsList, setPerson }) => {
                     .then(returnedObject => {
                         const mapped = personsList.map(person => person.id !== existingPerson.id ? person : returnedObject)
                         setPerson(mapped)
+                        console.log('works')
+                    })
+                    .catch(() => {
+                        showNotification(`Information of ${existingPerson.name} has been already removed from the server`, 'error')
                         setNewName('')
                         setNewNumber('')
                     });
@@ -31,14 +35,10 @@ const PhonebookAdder = ({ personsList, setPerson }) => {
             .create(personObject)
             .then(returnedObject => {
                 setPerson(personsList.concat(returnedObject))
+                showNotification(`Added ${returnedObject.name}`, 'success')
                 setNewName('')
                 setNewNumber('')
             })
-            .catch(message => {
-                setError(
-                    { message: `Error: ${message.response.data.error}` })
-            })
-
     }
 
     const handleNameChange = (event) => {

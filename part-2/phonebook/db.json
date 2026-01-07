@@ -3,12 +3,7 @@
     {
       "id": "1",
       "name": "Arto Hellas",
-      "number": "1234"
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
+      "number": "hkh"
     },
     {
       "name": "Dan Abramov",
@@ -44,11 +39,6 @@
       "name": "Barbara Liskov",
       "number": "1-212-5557834",
       "id": "9"
-    },
-    {
-      "name": "Tim Berners-Lee",
-      "number": "44-20-71234567",
-      "id": "10"
     }
   ]
 }
